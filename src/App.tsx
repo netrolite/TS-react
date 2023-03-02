@@ -1,31 +1,17 @@
-import { useState } from "react";
+import { useRef, ChangeEvent, useEffect, FormEvent } from "react";
 import { Card } from "./components/Card";
 
 export const App = () => {
-  const [state, setState] = useState<number>(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const titles = ["hello", "my title", "epic title", "the title"];
-
-  const cardsNodes = titles.map((title, i) => (
-    <Card
-      obj={{ firstName: "matvey", phoneNumber: Math.random() * 1000000 }}
-      title={title}
-      key={i}
-    />
-  ));
-
-  function updateState() {
-    setState(Math.random());
+  function handleCardChange(e: ChangeEvent) {
+    e.preventDefault();
   }
-
+  
   return (
-    <div className="app">
-      <div className="cards">
-        {cardsNodes}
-      </div>
-      <button onClick={updateState}>
-        Update state
-      </button>
-    </div>
+    <>
+      <Card handleChange={handleCardChange} title="my title" />
+      <canvas ref={canvasRef}></canvas>
+    </>
   )
 }
