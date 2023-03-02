@@ -6,10 +6,10 @@ export const App = () => {
     <div className="app">
       <Counter>
         {
-          (data) => (
+          ({ count, setCount }) => (
             <>
-              <div>Count: {data.count}</div>
-              <button onClick={() => data.setCount(prevState => prevState + 1)}>Increment count</button>
+              <div>Count: {count}</div>
+              <button onClick={() => setCount(prevState => prevState + 1)}>Increment count</button>
             </>
           )
         }
