@@ -1,52 +1,31 @@
-import { useEffect, useState } from "react"
+import { useState } from "react";
+import { Card } from "./components/Card";
 
-export default function App() {
-  const [counter, setCounter] = useState(0);
-  const [keysPressed, setKeysPressed] = useState([] as string[]);
+export const App = () => {
+  const [state, setState] = useState<number>(0);
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeydown)
-    return () => {
-      window.removeEventListener("keydown", handleKeydown);
-    }
-  }, [])
-  useEffect(() => scrollIfKeysPressedIsOffscreen());
+  const titles = ["hello", "my title", "epic title", "the title"];
 
-  
-  function incrementCount() {
-    setCounter(prevState => prevState + 1);
+  const cardsNodes = titles.map((title, i) => (
+    <Card
+      obj={{ firstName: "matvey", phoneNumber: Math.random() * 1000000 }}
+      title={title}
+      key={i}
+    />
+  ));
+
+  function updateState() {
+    setState(Math.random());
   }
-  function decrementCount() {
-    setCounter(prevState => prevState - 1);
-  }
-  
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === "+") incrementCount();
-    else if (e.key === "-") decrementCount();
-    setKeysPressed(prevState => [...prevState, e.key])
-  }
-  
-  const keysPressedNode = keysPressed.map((key, i) => (
-    <li key={i}>{key}</li>
-  ))
-    
-    return (
-      <div id="app">
-      <h1>hello world</h1>
-      <div className="counter">{counter}</div>
-      <button onClick={ incrementCount }>+</button>
-      <button onClick={ decrementCount }>-</button>
-      <div className="keys-pressed">
-        <ol>{keysPressedNode}</ol>
+
+  return (
+    <div className="app">
+      <div className="cards">
+        {cardsNodes}
       </div>
+      <button onClick={updateState}>
+        Update state
+      </button>
     </div>
   )
-}
-
-function scrollIfKeysPressedIsOffscreen() {
-  const appNode = document.querySelector("#app") as HTMLDivElement;
-  const appHeight = appNode.offsetHeight;
-  if (appHeight > window.innerHeight) {
-    window.scrollTo(0, appHeight)
-  }
 }
